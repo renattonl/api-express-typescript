@@ -1,15 +1,15 @@
 FROM node:14
 
-EXPOSE 5000
+EXPOSE 3000
 
-WORKDIR /src
+RUN npm install npm@latest -g
 
-RUN npm install npm@lastest -g
+COPY package.json package-lock.json* ./
 
-COPY package.json package-lock*.json ./
+RUN npm install --no-optional && npm cache clean --force
 
-RUN npm install
+WORKDIR /usr
 
 COPY . .
 
-CMD ["node", "src/index.js"]
+CMD ["npm","run","start"]
