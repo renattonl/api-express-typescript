@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  api_backend:
+    container_name: api_backend
+    image: api_backend:0.0.1
+    build:
+      context: .
+    ports:
+      - '5000:5000'
+    env_file:
+      - .env
+    depends_on:
+      - api_db
+
+  api_db:
+    container_name: api_db
+    image: 'postgres:13'
+    ports:
+      - '5001:5432'
+    env_file:
+      - .env
+    volumes:
+      - nps_data:/var/lib/postgresql/data
+
+volumes:
+  nps_data: {}
