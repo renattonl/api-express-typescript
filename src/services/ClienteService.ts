@@ -32,6 +32,26 @@ class ClienteService {
     await row.destroy();
     return row;
   }
+
+  static async avgFechaNacimiento() {
+    const { Cliente } = sequelize.models;
+    const row = await Cliente.findAll({
+      attributes: [
+        [
+          sequelize.fn(
+            'coalesce',
+            sequelize.fn(
+              'AVG',
+              sequelize.fn('date_part', 'year', sequelize.fn('age', sequelize.col('fecha_nacimiento'))),
+            ),
+            0,
+          ),
+          'promedio',
+        ],
+      ],
+    });
+    return row[0];
+  }
 }
 
 export default ClienteService;
