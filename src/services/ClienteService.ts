@@ -5,7 +5,21 @@ import { NotFoundException } from '../exceptions/NotFoundException';
 class ClienteService {
   static async findAll() {
     const { Cliente } = sequelize.models;
-    return Cliente.findAll();
+    return Cliente.findAll({
+      attributes: {
+        include: [
+          [sequelize.fn('TO_CHAR', sequelize.col('fecha_nacimiento'), 'yyyy-mm-dd'), 'fecha_nacimiento'],
+          [
+            sequelize.fn(
+              'coalesce',
+              sequelize.fn('date_part', 'year', sequelize.fn('age', sequelize.col('fecha_nacimiento'))),
+              0,
+            ),
+            'edad',
+          ],
+        ],
+      },
+    });
   }
 
   static async create(data: ClienteInterface) {

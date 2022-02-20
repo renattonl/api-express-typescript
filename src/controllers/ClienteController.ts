@@ -4,7 +4,7 @@ import ClienteService from '../services/ClienteService';
 
 export const ClienteController: Router = Router();
 
-ClienteController.get('/edades', async (req: Request, res: Response, next: NextFunction) => {
+ClienteController.get('/promedio/edades', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rows = await ClienteService.avgFechaNacimiento();
     return responseSuccess(res, 200, rows);
