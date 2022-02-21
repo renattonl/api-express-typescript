@@ -1,3 +1,4 @@
+import cors from 'cors';
 import { Application, Request, Response, Router, NextFunction } from 'express';
 import { responseError } from '../utils/response';
 import { ClienteController } from '../controllers/ClienteController';
@@ -9,10 +10,9 @@ const _routes: [string, Router][] = [
 ];
 
 export const routes = (app: Application) => {
+  app.use(cors());
   app.use((req, res, next) => {
     res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', ['OPTIONS', 'GET', 'POST', 'DELETE', 'PUT']);
     next();
   });
   //
